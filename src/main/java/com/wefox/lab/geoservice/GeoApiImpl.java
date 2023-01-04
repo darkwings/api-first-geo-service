@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 import java.util.Collections;
 
 @ApplicationScoped
-public class CountriesApiImpl implements GeoApi {
+public class GeoApiImpl implements GeoApi {
 
     @Inject
     GeoService geoService;
