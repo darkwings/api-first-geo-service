@@ -15,10 +15,10 @@ info:
 
     **The names of countries, regions and cities returned by all endpoints are all lowercase**. It's up to users to format the name: capitalize first letter or uppercase.
 servers:
-  - url: 'http://localhost:8080'
+  - url: 'http://localhost:8080/geo'
     description: Local
 paths:
-  /geo/countries:
+  /countries:
     get:
       summary: All Countries
       tags: []
@@ -90,10 +90,10 @@ paths:
         See [HATEOAS](https://restfulapi.net/hateoas/) for further informations about `links` section.
       parameters:
         - $ref: '#/components/parameters/lang'
-        - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/limit'
     parameters: []
-  '/geo/countries/{country_id}/regions':
+  '/countries/{country_id}/regions':
     parameters:
       - schema:
           type: string
@@ -419,7 +419,9 @@ paths:
         Example 3 shows italian regions when `lang=en` (notice the different order of the collection, if compared to the results when lang=it)
       parameters:
         - $ref: '#/components/parameters/lang'
-  '/geo/countries/{country_id}/regions/{region_id}/cities':
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/limit'
+  '/countries/{country_id}/regions/{region_id}/cities':
     parameters:
       - schema:
           type: string
@@ -525,7 +527,7 @@ paths:
         - $ref: '#/components/parameters/lang'
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
-  '/geo/countries/{country_id}/regions/{region_id}/cities/{city_id}':
+  '/countries/{country_id}/regions/{region_id}/cities/{city_id}':
     parameters:
       - schema:
           type: string
@@ -598,7 +600,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/lang'
       deprecated: true
-  '/geo/countries/{country_id}/regions/{region_id}/provinces':
+  '/countries/{country_id}/regions/{region_id}/provinces':
     parameters:
       - schema:
           type: string
@@ -740,7 +742,9 @@ paths:
         See [HATEOAS](https://restfulapi.net/hateoas/) for further informations about `links` section.
       parameters:
         - $ref: '#/components/parameters/lang'
-  '/geo/countries/{country_id}/regions/{region_id}/provinces/{province_id}/cities':
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/limit'
+  '/countries/{country_id}/regions/{region_id}/provinces/{province_id}/cities':
     parameters:
       - schema:
           type: string
@@ -851,7 +855,9 @@ paths:
         See [HATEOAS](https://restfulapi.net/hateoas/) for further informations about `links` section.
       parameters:
         - $ref: '#/components/parameters/lang'
-  '/geo/countries/{country_id}/regions/{region_id}/provinces/{province_id}/cities/{city_id}':
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/limit'
+  '/countries/{country_id}/regions/{region_id}/provinces/{province_id}/cities/{city_id}':
     parameters:
       - schema:
           type: string
@@ -974,7 +980,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/lang'
       deprecated: true
-  '/geo/cities/{city_id}':
+  '/cities/{city_id}':
     parameters:
       - schema:
           type: string
@@ -1036,7 +1042,7 @@ paths:
         **TODO** understand if this API is really needed, maybe not!
       parameters:
         - $ref: '#/components/parameters/lang'
-  /geo/tax-code-validation:
+  /tax-code-validation:
     parameters: []
     put:
       summary: Validate tax code
@@ -1086,7 +1092,7 @@ paths:
         - $ref: '#/components/parameters/lang'
       requestBody:
         $ref: '#/components/requestBodies/TaxCodeValidation'
-  /geo/cities/search:
+  /cities/search:
     parameters: []
     post:
       summary: Search and validate cities
@@ -1123,8 +1129,8 @@ paths:
           $ref: '#/components/responses/500'
       parameters:
         - $ref: '#/components/parameters/lang'
-        - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/limit'
       requestBody:
         $ref: '#/components/requestBodies/CityQuery'
       description: |-
