@@ -35,7 +35,7 @@ public class CountriesApiImpl implements CountriesApi {
     }
 
     @Override
-    public CityByCityIdAndProvince200Response cityByCityIdAndProvince(String countryId, String regionId, String provinceId, String cityId, String lang) {
+    public CitiesByRegionAndCityId200Response cityByCityIdAndProvince(String countryId, String regionId, String provinceId, String cityId, String lang) {
         return null;
     }
 

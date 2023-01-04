@@ -24,57 +24,7 @@ paths:
       tags: []
       responses:
         '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Country'
-                  links:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Link'
-                  metadata:
-                    $ref: '#/components/schemas/Metadata'
-              examples:
-                Example 1 (api called with lang=en):
-                  value:
-                    data:
-                      - country_id: it
-                        name: italia
-                        phone_code: '39'
-                        deleted: false
-                      - country_id: es
-                        name: spagna
-                        deleted: false
-                        phone_code: '34'
-                      - country_id: de
-                        name: germania
-                        deleted: false
-                        phone_code: '49'
-                    links:
-                      - href: /geo/countries?offset=0&limit=20&lang=it
-                        rel: first
-                      - href: /geo/countries?offset=20&limit=20&lang=it
-                        rel: prev
-                      - href: /geo/countries?offset=60&limit=20&lang=it
-                        rel: next
-                      - null
-                      - href: /geo/countries?offset=230&limit=20&lang=it
-                        rel: last
-                    metadata:
-                      current_offset: 40
-                      total_count: 239
-          headers:
-            X-RateLimit-Limit:
-              schema:
-                type: string
-                pattern: '^[A-Za-z0-9-_]+'
-                maxLength: 512
+          $ref: '#/components/responses/Countries'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -107,295 +57,7 @@ paths:
       tags: []
       responses:
         '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Region'
-                  links:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Link'
-                  metadata:
-                    $ref: '#/components/schemas/Metadata'
-              examples:
-                Example 1 (italian regions with lang=it):
-                  value:
-                    data:
-                      - region_id: it-ab
-                        name: abruzzo
-                        deleted: false
-                        country_id: it
-                      - region_id: it-ba
-                        name: basilicata
-                        deleted: false
-                        country_id: it
-                      - region_id: it-cal
-                        name: Calabria
-                        deleted: false
-                        country_id: it
-                      - region_id: it-ca
-                        name: Campania
-                        deleted: false
-                        country_id: it
-                      - region_id: it-er
-                        name: emilia romagna
-                        deleted: false
-                        country_id: it
-                      - region_id: it-fvg
-                        name: friuli venezia giulia
-                        deleted: false
-                        country_id: it
-                      - region_id: it-la
-                        name: lazio
-                        deleted: false
-                        country_id: it
-                      - region_id: it-li
-                        name: liguria
-                        deleted: false
-                        country_id: it
-                      - region_id: it-lo
-                        name: lombardia
-                        deleted: false
-                        country_id: it
-                      - region_id: it-ma
-                        name: marche
-                        deleted: false
-                        country_id: it
-                      - region_id: it-mo
-                        name: molise
-                        deleted: false
-                        country_id: it
-                      - region_id: it-pi
-                        name: piemonte
-                        deleted: false
-                        country_id: it
-                      - region_id: it-pat
-                        name: provincia autonoma di trento
-                        deleted: false
-                        country_id: it
-                      - region_id: it-pab
-                        name: provincia autonoma di bolzano
-                        deleted: false
-                        country_id: it
-                      - region_id: it-pu
-                        name: puglia
-                        deleted: false
-                        country_id: it
-                      - region_id: it-sa
-                        name: sardegna
-                        deleted: false
-                        country_id: it
-                      - region_id: it-si
-                        name: sicilia
-                        deleted: false
-                        country_id: it
-                      - region_id: it-to
-                        name: Toscana
-                        deleted: false
-                        country_id: it
-                      - region_id: it-tr
-                        name: trentino
-                        deleted: false
-                        country_id: it
-                      - region_id: it-um
-                        name: umbria
-                        deleted: false
-                        country_id: it
-                      - region_id: it-va
-                        name: valle d'aosta
-                        deleted: false
-                        country_id: it
-                      - region_id: it-ve
-                        name: veneto
-                        deleted: false
-                        country_id: it
-                    links:
-                      - href: /geo/countries/it/regions?offset=20&limit=20&lang=it
-                        rel: next
-                      - href: /geo/countries/it/regions?offset=20&limit=20&lang=it
-                        rel: last
-                    metadata:
-                      current_offset: 0
-                      total_count: 22
-                'Example 2 (german regions, or lander, with lang=de)':
-                  value:
-                    data:
-                      - region_id: de-bw
-                        name: baden-württemberg
-                        deleted: false
-                        country_id: de
-                      - region_id: de-ba
-                        name: bayern
-                        deleted: false
-                        country_id: de
-                      - region_id: de-be
-                        name: berlin
-                        deleted: false
-                      - region_id: de-br
-                        name: brandenburg
-                        deleted: false
-                        country_id: de
-                      - region_id: DE005
-                        name: bremen
-                        deleted: false
-                        country_id: de
-                      - region_id: de-ha
-                        name: hamburg
-                        deleted: false
-                      - region_id: de-he
-                        name: hessen
-                        deleted: false
-                        country_id: de
-                      - region_id: de-mv
-                        name: mecklenburg-vorpommern
-                        deleted: false
-                        country_id: de
-                      - region_id: de-ni
-                        name: niedersachsen
-                        deleted: false
-                        country_id: de
-                      - region_id: de-nw
-                        name: nordrhein-westfalen
-                        deleted: false
-                      - region_id: de-rp
-                        name: rheinland-pfalz
-                        deleted: false
-                        country_id: de
-                      - region_id: de-saa
-                        name: saarland
-                        deleted: false
-                        country_id: de
-                      - region_id: de-san
-                        name: sachsen-anhalt
-                        deleted: false
-                        country_id: de
-                      - region_id: de-sh
-                        name: schleswig-holstein
-                        deleted: false
-                        country_id: de
-                      - region_id: de-th
-                        name: thüringen
-                        deleted: false
-                        country_id: de
-                      - region_id: de-brd
-                        name: bundesrepublik deutschland
-                        deleted: false
-                        country_id: de
-                    links: []
-                    metadata:
-                      current_offset: 0
-                      total_count: 16
-                Example 3 (italian regions with lang=en):
-                  value:
-                    data:
-                      - region_id: it-ab
-                        name: abruzzo
-                        deleted: false
-                        country_id: it
-                      - region_id: it-va
-                        name: aosta valley
-                        deleted: false
-                        country_id: it
-                      - region_id: it-pu
-                        name: apulia
-                        deleted: false
-                        country_id: it
-                      - region_id: it-pat
-                        name: autonomous province of trento
-                        deleted: false
-                        country_id: it
-                      - region_id: it-pab
-                        name: autonomous province of bolzano
-                        deleted: false
-                        country_id: it
-                      - region_id: it-ba
-                        name: basilicata
-                        deleted: false
-                        country_id: it
-                      - region_id: it-cal
-                        name: calabria
-                        deleted: false
-                        country_id: it
-                      - region_id: it-ca
-                        name: campania
-                        deleted: false
-                        country_id: it
-                      - region_id: it-er
-                        name: emilia romagna
-                        deleted: false
-                        country_id: it
-                      - region_id: it-fvg
-                        name: friuli venezia giulia
-                        deleted: false
-                        country_id: it
-                      - region_id: it-la
-                        name: lazio
-                        deleted: false
-                        country_id: it
-                      - region_id: it-li
-                        name: liguria
-                        deleted: false
-                        country_id: it
-                      - region_id: it-lo
-                        name: lombardy
-                        deleted: false
-                        country_id: it
-                      - region_id: it-ma
-                        name: marche
-                        deleted: false
-                        country_id: it
-                      - region_id: it-mo
-                        name: molise
-                        deleted: false
-                        country_id: it
-                      - region_id: it-pi
-                        name: piedmont
-                        deleted: false
-                        country_id: it
-                      - region_id: it-sa
-                        name: sardinia
-                        deleted: false
-                        country_id: it
-                      - region_id: it-si
-                        name: sicily
-                        deleted: false
-                        country_id: it
-                      - region_id: it-to
-                        name: tuscany
-                        deleted: false
-                        country_id: it
-                      - region_id: it-tr
-                        name: trentino-south tyrol
-                        deleted: false
-                        country_id: it
-                      - region_id: it-um
-                        name: umbria
-                        deleted: false
-                        country_id: it
-                      - region_id: it-ve
-                        name: veneto
-                        deleted: false
-                        country_id: it
-                    links:
-                      - href: /geo/countries/it/regions?offset=20&limit=20&lang=en
-                        rel: next
-                      - href: /geo/countries/it/regions?offset=20&limit=20&lang=en
-                        rel: last
-                    metadata:
-                      current_offset: 0
-                      total_count: 22
-          headers:
-            X-RateLimit-Limit:
-              schema:
-                type: string
-                pattern: '^[A-Za-z0-9-_]+'
-                maxLength: 512
+          $ref: '#/components/responses/Regions'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -442,70 +104,7 @@ paths:
       tags: []
       responses:
         '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/City'
-                  links:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Link'
-                  metadata:
-                    $ref: '#/components/schemas/Metadata'
-              examples:
-                'Example 1 (cities of Lombardy region, Italy)':
-                  value:
-                    data:
-                      - city_id: itc9103
-                        name: abbadia cerreto
-                        deleted: false
-                        state_code: '98001'
-                        management_code: A004
-                        zip_codes:
-                          - '26834'
-                        region_id: it-lo
-                        region_name: lombardia
-                        province_id: itp002
-                        province_name: lodi
-                        country_id: it
-                        country_name: italia
-                      - city_id: itc10601
-                        name: abbadia lariana
-                        deleted: false
-                        state_code: '97001'
-                        management_code: A005
-                        zip_codes:
-                          - '23821'
-                        region_id: it-lo
-                        region_name: lombardia
-                        province_id: itp006
-                        province_name: como
-                        country_id: it
-                        country_name: italia
-                    links:
-                      - href: /geo/countries/it/regions/it-lo/cities?offset=0&limit=20&lang=it
-                        rel: first
-                      - href: /geo/countries/it/regions/it-lo/cities?offset=20&limit=20&lang=it
-                        rel: prev
-                      - href: /geo/countries/it/regions/it-lo/cities?offset=60&limit=20&lang=it
-                        rel: next
-                      - href: /geo/countries/it/regions/it-lo/cities?offset=1500&limit=20&lang=it
-                        rel: last
-                    metadata:
-                      current_offset: 40
-                      total_count: 1506
-          headers:
-            X-RateLimit-Limit:
-              schema:
-                type: string
-                pattern: '^[A-Za-z0-9-_]+'
-                maxLength: 512
+          $ref: '#/components/responses/Cities'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -555,36 +154,7 @@ paths:
       tags: []
       responses:
         '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    $ref: '#/components/schemas/City'
-              examples:
-                'Detail of an italian city, with lang=it':
-                  value:
-                    data:
-                      city_id: itc10104
-                      name: linarolo
-                      state_code: '18081'
-                      management_code: E600
-                      zip_codes:
-                        - '27010'
-                      country_id: it
-                      country_name: italia
-                      region_id: it-lo
-                      region_name: lombardia
-                      province_id: itp008
-                      province_name: Pavia
-          headers:
-            X-RateLimit-Limit:
-              schema:
-                type: string
-                pattern: '^[A-Za-z0-9-_]+ '
-                maxLength: 512
+          $ref: '#/components/responses/City'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -621,108 +191,7 @@ paths:
       tags: []
       responses:
         '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Province'
-                  links:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Link'
-                  metadata:
-                    $ref: '#/components/schemas/Metadata'
-              examples:
-                'List of provinces of Lombardy (Italy), with lang=it':
-                  value:
-                    data:
-                      - province_id: itp003
-                        name: bergamo
-                        deleted: false
-                        code: BG
-                        country_id: it
-                        region_id: it-lo
-                      - province_id: itp800
-                        name: brescia
-                        deleted: false
-                        code: BS
-                        country_id: it
-                        region_id: it-lo
-                      - province_id: itp006
-                        name: como
-                        deleted: false
-                        code: CO
-                        country_id: it
-                        region_id: it-lo
-                      - province_id: itp009
-                        name: cremona
-                        deleted: false
-                        code: CR
-                        country_id: it
-                        region_id: it-lo
-                      - province_id: itp007
-                        name: lecco
-                        deleted: false
-                        code: LC
-                        country_id: it
-                        region_id: it-lo
-                      - province_id: itp002
-                        name: lodi
-                        deleted: false
-                        code: LO
-                        country_id: it
-                        region_id: it-lo
-                      - province_id: itp010
-                        name: mantova
-                        deleted: false
-                        code: MN
-                        country_id: it
-                        region_id: it-lo
-                      - province_id: itp001
-                        name: milano
-                        deleted: false
-                        code: MI
-                        country_id: it
-                        region_id: it-lo
-                      - province_id: itp004
-                        name: monza e della brianza
-                        deleted: false
-                        code: MB
-                        country_id: it
-                        region_id: it-lo
-                      - province_id: itp008
-                        name: pavia
-                        deleted: false
-                        code: PV
-                        country_id: it
-                        region_id: it-lo
-                      - province_id: itp801
-                        name: sondrio
-                        deleted: false
-                        code: SO
-                        country_id: it
-                        region_id: it-lo
-                      - province_id: itp005
-                        name: varese
-                        deleted: false
-                        code: VA
-                        country_id: it
-                        region_id: it-lo
-                    links: []
-                    metadata:
-                      current_offset: 0
-                      total_count: 12
-          headers:
-            X-RateLimit-Limit:
-              schema:
-                type: string
-                pattern: '^[A-Za-z0-9-_]+ '
-                maxLength: 512
+          $ref: '#/components/responses/Provinces'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -772,70 +241,7 @@ paths:
       tags: []
       responses:
         '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/City'
-                  links:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Link'
-                  metadata:
-                    $ref: '#/components/schemas/Metadata'
-              examples:
-                'Example 1 (cities of the province of Milan, in Lombardy)':
-                  value:
-                    data:
-                      - city_id: itc10104
-                        name: abbiategrasso
-                        deleted: false
-                        state_code: '15002'
-                        management_code: A010
-                        zip_codes:
-                          - '20081'
-                        region_id: it-lo
-                        region_name: lombardia
-                        province_id: itp001
-                        province_name: milano
-                        country_id: it
-                        country_name: italia
-                      - city_id: itc10105
-                        name: Albairate
-                        deleted: false
-                        state_code: '15005'
-                        management_code: A127
-                        zip_codes:
-                          - '20080'
-                        region_id: it-lo
-                        region_name: lombardia
-                        province_id: itp001
-                        province_name: milano
-                        country_id: it
-                        country_name: italia
-                    links:
-                      - href: /geo/countries/it/regions/it-lo/provinces/itp001/cities?offset=0&limit=20&lang=it
-                        rel: first
-                      - href: /geo/countries/it/regions/it-lo/provinces/itp001/cities?offset=20&limit=20&lang=it
-                        rel: prev
-                      - href: /geo/countries/it/regions/it-lo/provinces/itp001/cities?offset=60&limit=20&lang=it
-                        rel: next
-                      - href: /geo/countries/it/regions/it-lo/provinces/itp001/cities?offset=120&limit=20&lang=it
-                        rel: last
-                    metadata:
-                      current_offset: 40
-                      total_count: 134
-          headers:
-            X-RateLimit-Limit:
-              schema:
-                type: string
-                pattern: '^[A-Za-z0-9-_]+ '
-                maxLength: 512
+          $ref: '#/components/responses/Cities'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -892,79 +298,7 @@ paths:
       tags: []
       responses:
         '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    $ref: '#/components/schemas/City'
-                required:
-                  - data
-              examples:
-                'Detail of an italian city, with lang=it':
-                  value:
-                    data:
-                      city_id: itc10104
-                      name: linarolo
-                      state_code: '18081'
-                      management_code: E600
-                      zip_codes:
-                        - '27010'
-                      country_id: it
-                      country_name: italia
-                      region_id: it-lo
-                      region_name: lombardia
-                      province_id: itp008
-                      province_name: Pavia
-                Example 1:
-                  value:
-                    data:
-                      - city_id: itc10104
-                        name: abbiategrasso
-                        deleted: false
-                        state_code: '15002'
-                        management_code: A010
-                        zip_codes:
-                          - '20081'
-                        region_id: it-lo
-                        region_name: lombardia
-                        province_id: itp001
-                        province_name: milano
-                        country_id: it
-                        country_name: italia
-                      - city_id: itc10105
-                        name: Albairate
-                        deleted: false
-                        state_code: '15005'
-                        management_code: A127
-                        zip_codes:
-                          - '20080'
-                        region_id: it-lo
-                        region_name: lombardia
-                        province_id: itp001
-                        province_name: milano
-                        country_id: it
-                        country_name: italia
-                    links:
-                      - href: /geo/countries/it/regions/it-lo/provinces/itp001/cities?offset=0&limit=20&lang=it
-                        rel: first
-                      - href: /geo/countries/it/regions/it-lo/provinces/itp001/cities?offset=20&limit=20&lang=it
-                        rel: prev
-                      - href: /geo/countries/it/regions/it-lo/provinces/itp001/cities?offset=60&limit=20&lang=it
-                        rel: next
-                      - href: /geo/countries/it/regions/it-lo/provinces/itp001/cities?offset=120&limit=20&lang=it
-                        rel: last
-                    metadata:
-                      current_offset: 40
-                      total_count: 134
-          headers:
-            X-RateLimit-Limit:
-              schema:
-                type: string
-                pattern: '^[A-Za-z0-9-_]+ '
-                maxLength: 512
+          $ref: '#/components/responses/City'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -995,36 +329,7 @@ paths:
       tags: []
       responses:
         '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    $ref: '#/components/schemas/City'
-              examples:
-                'Detail of an italian city, with lang=it':
-                  value:
-                    data:
-                      city_id: itc10104
-                      name: linarolo
-                      state_code: '18081'
-                      management_code: E600
-                      zip_codes:
-                        - '27010'
-                      country_id: it
-                      country_name: italia
-                      region_id: it-lo
-                      region_name: lombardia
-                      province_id: itp008
-                      province_name: Pavia
-          headers:
-            X-RateLimit-Limit:
-              schema:
-                type: string
-                pattern: '^[A-Za-z0-9-_]+'
-                maxLength: 512
+          $ref: '#/components/responses/City'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -1099,24 +404,7 @@ paths:
       operationId: post-cities-search
       responses:
         '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: array
-                    maxItems: 200
-                    items:
-                      $ref: '#/components/schemas/City'
-                  links:
-                    type: array
-                    maxItems: 200
-                    items:
-                      $ref: '#/components/schemas/Link'
-                  metadata:
-                    $ref: '#/components/schemas/Metadata'
+          $ref: '#/components/responses/Cities'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -1860,6 +1148,12 @@ components:
                 maxItems: 200
                 items:
                   $ref: '#/components/schemas/Region'
+              links:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Link'
+              metadata:
+                $ref: '#/components/schemas/Metadata'
             required:
               - data
           examples:
@@ -2150,6 +1444,13 @@ components:
                 maxItems: 300
                 items:
                   $ref: '#/components/schemas/Province'
+              links:
+                type: array
+                maxItems: 200
+                items:
+                  $ref: '#/components/schemas/Link'
+              metadata:
+                $ref: '#/components/schemas/Metadata'
             required:
               - data
           examples:
