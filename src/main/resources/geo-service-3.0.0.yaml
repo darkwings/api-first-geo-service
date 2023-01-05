@@ -396,7 +396,23 @@ paths:
       parameters:
         - $ref: '#/components/parameters/lang'
       requestBody:
-        $ref: '#/components/requestBodies/TaxCodeValidation'
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                country_id:
+                  type: string
+                  pattern: '[A-Za-z]{2}'
+                  maxLength: 2
+                tax_code:
+                  type: string
+                  pattern: '[A-Za-z0-9]+'
+                  maxLength: 20
+              required:
+                - country_id
+                - tax_code
+        description: Body of tax code validation PUT endpoint
   /cities/search:
     parameters: []
     post:
@@ -419,8 +435,6 @@ paths:
         - $ref: '#/components/parameters/lang'
         - $ref: '#/components/parameters/offset'
         - $ref: '#/components/parameters/limit'
-      requestBody:
-        $ref: '#/components/requestBodies/CityQuery'
       description: |-
         Search for cities, given
 
@@ -455,6 +469,33 @@ paths:
 
         See [HATEOAS](https://restfulapi.net/hateoas/) for further informations about `links` section.
       deprecated: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                country_id:
+                  type: string
+                  maxLength: 2
+                  pattern: '[A-Za-z]{2}'
+                region_name:
+                  type: string
+                  pattern: '[A-Za-z0-9 ,''-]+'
+                  maxLength: 100
+                province_name:
+                  type: string
+                  pattern: '[A-Za-z0-9 ,''-]+'
+                  maxLength: 100
+                city_name:
+                  type: string
+                  pattern: '[A-Za-z0-9 ,''-]+'
+                  maxLength: 100
+              required:
+                - country_id
+        description: |-
+          The body of the endpoint that allows to query the database city by name.
+          None of the properties, except for `country_id`, is mandatory, but at least one should be populated, in order to avoid to retrieve all cities of a country.
 components:
   schemas:
     Country:
@@ -1568,62 +1609,7 @@ components:
         default: 0
       description: the offset to start
       allowEmptyValue: true
-  requestBodies:
-    CityQuery:
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              city_name:
-                type: string
-                pattern: '[A-Za-z0-9 ,'']+'
-                maxLength: 100
-              province_name:
-                type: string
-                pattern: '[A-Za-z0-9 ,'']+'
-                maxLength: 100
-              region_name:
-                type: string
-                pattern: '[A-Za-z0-9 ,'']+'
-                maxLength: 100
-              country_id:
-                type: string
-                pattern: '[a-z]{2}'
-                maxLength: 2
-                description: ISO ID of the target country
-            required:
-              - country_id
-          examples:
-            'Looking for a specific city, in italian language (lang=it)':
-              value:
-                city_name: belgioioso
-                province_name: pavia
-                region_name: lombardia
-                country_id: it
-      description: |-
-        The body of the endpoint that allows to query the database city by name.
-        None of the properties, except for `country_id`, is mandatory, but at least one should be populated, in order to avoid to retrieve all cities of a country.
-    TaxCodeValidation:
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              country_id:
-                type: string
-                pattern: '[A-Za-z]{2}'
-                maxLength: 2
-              tax_code:
-                type: string
-                pattern: '[A-Za-z0-9]+'
-                maxLength: 20
-          examples:
-            Validation of italian tax code:
-              value:
-                country_id: it
-                tax_code: AAABBB80A01G388P
-      description: Body of tax code validation PUT endpoint
+  requestBodies: {}
 x-internal: false
 security:
   - API Key - 1: []
