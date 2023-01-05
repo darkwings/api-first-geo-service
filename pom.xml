@@ -86,8 +86,7 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-<!--                            <inputSpec>/Users/franco.torriani/work/projects/directj-server-spec/openapi/geo-service/v1/geo-service-3.0.0.yaml</inputSpec>-->
-                            <inputSpec>${project.basedir}/geo-service-3.0.0.yaml</inputSpec>
+                            <inputSpec>${project.basedir}/src/main/resources/geo-service-3.0.0.yaml</inputSpec>
                             <generatorName>jaxrs-spec</generatorName>
                             <configOptions>
                                 <dateLibrary>java8</dateLibrary>

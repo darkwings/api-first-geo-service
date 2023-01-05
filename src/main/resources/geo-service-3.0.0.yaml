@@ -1553,9 +1553,8 @@ components:
       schema:
         type: string
         default: it
-        pattern: '^[a-z]{2}(-[a-z]{2})?$'
-        minLength: 2
-        maxLength: 5
+        pattern: '[A-Za-z]{2}'
+        maxLength: 2
       description: 'the language in which we want to receive the data, expressed in iso 639-1 format'
       allowEmptyValue: true
     limit:
