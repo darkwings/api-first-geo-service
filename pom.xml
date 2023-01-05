@@ -96,8 +96,8 @@
                                 <interfaceOnly>true</interfaceOnly>
                                 <validateSpec>true</validateSpec>
                             </configOptions>
-                            <apiPackage>com.wefox.lab.geoservice.openapi</apiPackage>
-                            <modelPackage>com.wefox.lab.geoservice.openapi.model</modelPackage>
+                            <apiPackage>it.apifirst.lab.geoservice.openapi.api</apiPackage>
+                            <modelPackage>it.apifirst.lab.geoservice.openapi.model</modelPackage>
                             <generateModelTests>false</generateModelTests>
                             <generateModelDocumentation>false</generateModelDocumentation>
                             <generateSupportingFiles>false</generateSupportingFiles>

@@ -1,7 +1,7 @@
-package com.wefox.lab.geoservice.model;
+package it.apifirst.lab.geoservice.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.wefox.lab.localization.LocalizedData;
+import it.apifirst.lab.localization.LocalizedData;
 
 import javax.persistence.*;
 import java.util.Set;

@@ -1,4 +1,4 @@
-package com.wefox.lab.geoservice.service;
+package it.apifirst.lab.geoservice.service;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

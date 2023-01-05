@@ -1,4 +1,4 @@
-package com.wefox.lab.localization;
+package it.apifirst.lab.localization;
 
 /**
  * Represents supported languages of the platform (can be obtained from an external service)

@@ -1,4 +1,4 @@
-package com.wefox.lab;
+package it.apifirst.lab;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

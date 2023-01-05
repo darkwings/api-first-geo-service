@@ -1,8 +1,8 @@
-package com.wefox.lab.geoservice;
+package it.apifirst.lab.geoservice;
 
-import com.wefox.lab.geoservice.openapi.CountriesApi;
-import com.wefox.lab.geoservice.openapi.model.*;
-import com.wefox.lab.geoservice.service.GeoService;
+import it.apifirst.lab.geoservice.openapi.api.CountriesApi;
+import it.apifirst.lab.geoservice.service.GeoService;
+import it.apifirst.lab.geoservice.openapi.model.*;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
