@@ -1,4 +1,4 @@
-openapi: 3.0.0
+openapi: 3.1.0
 x-stoplight:
   id: 3diqa0zi4eurm
 info:
@@ -8,6 +8,7 @@ info:
     email: support@acme.com
     name: Acme
     url: 'https://acme.com'
+  summary: GEO Service API
   description: |-
     API exposed by the new GEO Service, which allows to query for cities given (country/region) or (country/region/province).
 
@@ -124,8 +125,8 @@ paths:
         See [HATEOAS](https://restfulapi.net/hateoas/) for further informations about `links` section.
       parameters:
         - $ref: '#/components/parameters/lang'
-        - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/limit'
   '/countries/{country_id}/regions/{region_id}/cities/{city_id}':
     parameters:
       - schema:
@@ -463,6 +464,15 @@ components:
         id: vpkrf5u530zds
       type: object
       description: Represents a country
+      examples:
+        - country_id: it
+          name: Italy
+          phone_code: '39'
+          deleted: false
+        - country_id: de
+          name: Germany
+          phone_code: '49'
+          deleted: false
       properties:
         country_id:
           type: string
@@ -495,6 +505,19 @@ components:
         Region / State (for US or other federated countries).
 
         This API does not force region_id to have a particular format, but implementors have to make sure it will be unique for that region state. It could be a random alphanumeric code ('abc012') or could be something that recalls countries (es 'us-ak' for Alaska, 'it-lo' for Lombardy etc). It is purely an implementor's choice, the important is that the code is unique.
+      examples:
+        - region_id: it-lo
+          name: Lombardia
+          deleted: false
+          country_id: it
+        - region_id: us-ca
+          name: California
+          deleted: false
+          country_id: us
+        - region_id: de-bw
+          name: Baden-Württemberg
+          deleted: false
+          country_id: de
       properties:
         region_id:
           type: string
@@ -524,6 +547,13 @@ components:
         id: bwezl8ap9464m
       type: object
       description: 'Province, for countries we need this concept'
+      examples:
+        - province_id: itp001
+          name: Brescia
+          deleted: false
+          code: BS
+          country_id: it
+          region_id: it-lo
       properties:
         province_id:
           type: string
@@ -567,6 +597,55 @@ components:
         A deleted city is a city that no longer exists, possibly for a merge with other cities. Each city should have a unique ID.
 
         Given that some big cities are associated to more zip codes, the field `zip_codes` is an array.
+      examples:
+        - city_id: itc10104
+          name: Linarolo
+          state_code: '18081'
+          management_code: E600
+          zip_codes:
+            - '27010'
+          country_id: it
+          country_name: Italia
+          region_id: it-lo
+          region_name: Lombardia
+          province_id: itp008
+          province_name: Pavia
+        - city_id: esc121314
+          name: Valencia
+          zip_codes:
+            - '46001'
+            - '46002'
+          country_id: es
+          country_name: Spagna
+          region_id: es-12
+          region_name: Comunità Valenciana
+        - city_id: itc14031
+          name: Milano
+          state_code: '15146'
+          management_code: F205
+          zip_codes:
+            - '20121'
+            - '20123'
+            - '20162'
+          country_id: it
+          country_name: Italia
+          region_id: it-lo
+          region_name: Lombardia
+          province_id: itp001
+          province_name: Milano
+        - city_id: itc11313
+          name: Corteolona
+          state_code: '18056'
+          management_code: M372
+          zip_codes:
+            - '27010'
+          deleted: true
+          country_id: it
+          country_name: Italia
+          region_id: it-lo
+          region_name: Lombardia
+          province_id: itp008
+          province_name: Pavia
       properties:
         city_id:
           type: string
@@ -648,6 +727,18 @@ components:
         id: 1t9kjpf0tvxrn
       type: object
       description: The owner of tax code
+      examples:
+        - tax_code: AAABBB80R10G388H
+          last_name: AAA
+          first_name: BBB
+          sex: M
+          birth_date: '1980-10-10'
+          birth_region: Lombardia
+          birth_province: Pavia
+          birth_city: Pavia
+          birth_city_management_code: G388
+          birth_city_state_code: '18110'
+          control_chars: H
       properties:
         tax_code:
           type: string
@@ -736,6 +827,9 @@ components:
           type: string
           pattern: '[A-Za-z0-9 ]+'
           maxLength: 20
+      examples:
+        - href: /geo/countries?offset=0&limit=20&lang=it
+          rel: first
     Metadata:
       title: Metadata
       x-stoplight:
@@ -765,6 +859,10 @@ components:
           maxItems: 20
           items:
             $ref: '#/components/schemas/Error'
+      examples:
+        - errors:
+            - code: ERR001
+              message: An error message
       description: A list of errors
   responses:
     '400':
@@ -1140,6 +1238,7 @@ components:
                   $ref: '#/components/schemas/Region'
               links:
                 type: array
+                maxItems: 200
                 items:
                   $ref: '#/components/schemas/Link'
               metadata:
@@ -1543,8 +1642,8 @@ components:
       schema:
         type: string
         default: it
-        maxLength: 2
         pattern: '[A-Za-z]{2}'
+        maxLength: 2
       description: 'the language in which we want to receive the data, expressed in iso 639-1 format'
       allowEmptyValue: true
     limit:
