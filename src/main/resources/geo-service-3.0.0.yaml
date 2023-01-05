@@ -1605,8 +1605,8 @@ components:
       required: false
       schema:
         type: number
-        maximum: 100000
         default: 0
+        minimum: 0
       description: the offset to start
       allowEmptyValue: true
   requestBodies: {}
