@@ -7,9 +7,9 @@
     "title": "geo-service",
     "version": "1.0",
     "contact": {
-      "email": "support@wefox.com",
-      "name": "Wefox",
-      "url": "https://wefox.com"
+      "email": "support@acme.com",
+      "name": "Acme",
+      "url": "https://acme.com"
     },
     "description": "API exposed by the new GEO Service, which allows to query for cities given (country/region) or (country/region/province).\n\nThe IDs shown in the examples are examples. For simplicity some examples show subsequent IDs, but IDs should not be autoincremental, for security reasons it's better to use UUID instead.\n\n**The names of countries, regions and cities returned by all endpoints are all lowercase**. It's up to users to format the name: capitalize first letter or uppercase."
   },

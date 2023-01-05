@@ -5,9 +5,9 @@ info:
   title: geo-service
   version: '1.0'
   contact:
-    email: support@wefox.com
-    name: Wefox
-    url: 'https://wefox.com'
+    email: support@acme.com
+    name: Acme
+    url: 'https://acme.com'
   description: |-
     API exposed by the new GEO Service, which allows to query for cities given (country/region) or (country/region/province).
 
