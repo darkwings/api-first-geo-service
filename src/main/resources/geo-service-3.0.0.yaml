@@ -3,17 +3,14 @@ x-stoplight:
   id: 3diqa0zi4eurm
 info:
   title: geo-service
-  version: '1.0'
+  version: 1.0.0
+  x-api-id: 3diqa0zi4eurm
   contact:
-    email: support@acme.com
-    name: Acme
-    url: 'https://acme.com'
-  description: |-
-    API exposed by the new GEO Service, which allows to query for cities given (country/region) or (country/region/province).
-
-    The IDs shown in the examples are examples. For simplicity some examples show subsequent IDs, but IDs should not be autoincremental, for security reasons it's better to use UUID instead.
-
-    **The names of countries, regions and cities returned by all endpoints are all lowercase**. It's up to users to format the name: capitalize first letter or uppercase.
+    email: support@wefox.com
+    name: Wefox
+    url: 'https://wefox.com'
+  x-audience: company-internal
+  description: 'API exposed by the new GEO Service, which allows to query for cities given (country/region) or (country/region/province).'
 servers:
   - url: 'http://localhost:8080/geo'
     description: Local
@@ -24,13 +21,13 @@ paths:
       tags: []
       responses:
         '200':
-          $ref: '#/components/responses/Countries'
+          $ref: '#/components/responses/countries'
         '401':
-          $ref: '#/components/responses/401'
+          $ref: '#/components/responses/error401'
         '403':
-          $ref: '#/components/responses/403'
+          $ref: '#/components/responses/error403'
         '500':
-          $ref: '#/components/responses/500'
+          $ref: '#/components/responses/error500'
       operationId: get-countries
       description: |-
         Get all countries. The names are resolved based on requested language (default `it`).
@@ -49,23 +46,31 @@ paths:
           type: string
           pattern: '[A-Za-z]{2}'
           maxLength: 2
+          example: it
         name: country_id
         in: path
         required: true
+        examples:
+          italian:
+            value: it
+            summary: italian language
+          english:
+            value: en
+            summary: emglish language
     get:
       summary: Regions by country
       tags: []
       responses:
         '200':
-          $ref: '#/components/responses/Regions'
+          $ref: '#/components/responses/regions'
         '401':
-          $ref: '#/components/responses/401'
+          $ref: '#/components/responses/error401'
         '403':
-          $ref: '#/components/responses/403'
+          $ref: '#/components/responses/error403'
         '404':
-          $ref: '#/components/responses/404'
+          $ref: '#/components/responses/error404'
         '500':
-          $ref: '#/components/responses/500'
+          $ref: '#/components/responses/error500'
       operationId: get-api-geo-countries-country_code
       description: |
         Retrieves all the states/region of a country. For US (or a federated country like Germany), it returns the list of states. The names are resolved based on requested language (default `it`).
@@ -89,32 +94,48 @@ paths:
           type: string
           pattern: '[A-Za-z]{2}'
           maxLength: 2
+          example: it
         name: country_id
         in: path
         required: true
+        examples:
+          italian:
+            value: it
+            summary: italian language
+          english:
+            value: en
+            summary: emglish language
       - schema:
           type: string
-          pattern: '[A-Za-z0-9]+'
+          pattern: '[A-Za-z0-9-_]+'
           maxLength: 10
+          example: it-lo
         name: region_id
         in: path
         required: true
+        examples:
+          italian:
+            value: it-lo
+            summary: lombardy italian region
+          english:
+            value: ak
+            summary: arkansas US states
     get:
       summary: Cities by region
       tags: []
       responses:
         '200':
-          $ref: '#/components/responses/Cities'
+          $ref: '#/components/responses/cities'
         '400':
-          $ref: '#/components/responses/400'
+          $ref: '#/components/responses/error400'
         '401':
-          $ref: '#/components/responses/401'
+          $ref: '#/components/responses/error401'
         '403':
-          $ref: '#/components/responses/403'
+          $ref: '#/components/responses/error403'
         '404':
-          $ref: '#/components/responses/404'
+          $ref: '#/components/responses/error404'
         '500':
-          $ref: '#/components/responses/500'
+          $ref: '#/components/responses/error500'
       operationId: cities-by-region
       description: |-
         Returns the cities of a region. The names are resolved based on requested language (default `it`).
@@ -132,16 +153,32 @@ paths:
           type: string
           pattern: '[A-Za-z]{2}'
           maxLength: 2
+          example: it
         name: country_id
         in: path
         required: true
+        examples:
+          italian:
+            value: it
+            summary: italian language
+          english:
+            value: en
+            summary: emglish language
       - schema:
           type: string
-          pattern: '[A-Za-z0-9]+'
+          pattern: '[A-Za-z0-9-_]+'
           maxLength: 10
+          example: it-lo
         name: region_id
         in: path
         required: true
+        examples:
+          italian:
+            value: it-lo
+            summary: italian lombardy region
+          english:
+            value: ak
+            summary: arkansas US state
       - schema:
           type: string
           pattern: '[A-Za-z0-9]+'
@@ -149,22 +186,26 @@ paths:
         name: city_id
         in: path
         required: true
+        examples:
+          italian:
+            value: prv-0001
+            summary: a province
     get:
       summary: City detail by city ID and region
       tags: []
       responses:
         '200':
-          $ref: '#/components/responses/City'
+          $ref: '#/components/responses/city'
         '400':
-          $ref: '#/components/responses/400'
+          $ref: '#/components/responses/error400'
         '401':
-          $ref: '#/components/responses/401'
+          $ref: '#/components/responses/error401'
         '403':
-          $ref: '#/components/responses/403'
+          $ref: '#/components/responses/error403'
         '404':
-          $ref: '#/components/responses/404'
+          $ref: '#/components/responses/error404'
         '500':
-          $ref: '#/components/responses/500'
+          $ref: '#/components/responses/error500'
       operationId: cities-by-region-and-city-id
       description: Returns a specific city of a region. The names are resolved based on requested language (default `it`)
       parameters:
@@ -176,32 +217,48 @@ paths:
           type: string
           pattern: '[A-Za-z]{2}'
           maxLength: 2
+          example: it
         name: country_id
         in: path
         required: true
+        examples:
+          italian:
+            value: it
+            summary: italian language
+          english:
+            value: en
+            summary: emglish language
       - schema:
           type: string
-          pattern: '[A-Za-z0-9]+'
+          pattern: '[A-Za-z0-9-_]+'
           maxLength: 10
+          example: it-lo
         name: region_id
         in: path
         required: true
+        examples:
+          italian:
+            value: it-lo
+            summary: italian lombardy region
+          english:
+            value: ak
+            summary: arkansas US state
     get:
       summary: Provinces by region
       tags: []
       responses:
         '200':
-          $ref: '#/components/responses/Provinces'
+          $ref: '#/components/responses/provinces'
         '400':
-          $ref: '#/components/responses/400'
+          $ref: '#/components/responses/error400'
         '401':
-          $ref: '#/components/responses/401'
+          $ref: '#/components/responses/error401'
         '403':
-          $ref: '#/components/responses/403'
+          $ref: '#/components/responses/error403'
         '404':
-          $ref: '#/components/responses/404'
+          $ref: '#/components/responses/error404'
         '500':
-          $ref: '#/components/responses/500'
+          $ref: '#/components/responses/error500'
       operationId: provinces-by-region
       description: |-
         Returns the provinces of a region, useful for those countries in which you want to distinguish region->province->city (like Italy). The names are resolved based on requested language (default `it`).
@@ -219,39 +276,60 @@ paths:
           type: string
           pattern: '[A-Za-z]{2}'
           maxLength: 2
+          example: it
         name: country_id
         in: path
         required: true
+        examples:
+          italian:
+            value: it
+            summary: italian language
+          english:
+            value: en
+            summary: emglish language
       - schema:
           type: string
-          pattern: '[A-Za-z0-9]+'
+          pattern: '[A-Za-z0-9-_]+'
           maxLength: 10
+          example: it-lo
         name: region_id
         in: path
         required: true
+        examples:
+          italian:
+            value: it-lo
+            summary: italian lombardy region
+          english:
+            value: ak
+            summary: arkansas US state
       - schema:
           type: string
-          pattern: '[A-Za-z0-9]+'
+          pattern: '[A-Za-z0-9-_]+'
           maxLength: 10
+          example: prv-100
         name: province_id
         in: path
         required: true
+        examples:
+          italian:
+            value: prv-0001
+            summary: a province
     get:
       summary: Cities by region and province
       tags: []
       responses:
         '200':
-          $ref: '#/components/responses/Cities'
+          $ref: '#/components/responses/cities'
         '400':
-          $ref: '#/components/responses/400'
+          $ref: '#/components/responses/error400'
         '401':
-          $ref: '#/components/responses/401'
+          $ref: '#/components/responses/error401'
         '403':
-          $ref: '#/components/responses/403'
+          $ref: '#/components/responses/error403'
         '404':
-          $ref: '#/components/responses/404'
+          $ref: '#/components/responses/error404'
         '500':
-          $ref: '#/components/responses/500'
+          $ref: '#/components/responses/error500'
       operationId: get-api-geo-countries-country_code-regions-region_code-provinces-province_code-cities
       description: |-
         Retrieves the cities of a province. Useful for countries, like Italy, which distinguishes region and province. The names are resolved based on requested language (default `it`).
@@ -269,46 +347,72 @@ paths:
           type: string
           pattern: '[A-Za-z]{2}'
           maxLength: 2
+          example: it
         name: country_id
         in: path
         required: true
+        examples:
+          italian:
+            value: it
+            summary: italian language
+          english:
+            value: en
+            summary: emglish language
       - schema:
           type: string
-          pattern: '[A-Za-z0-9]+'
+          pattern: '[A-Za-z0-9-_]+'
           maxLength: 10
+          example: it-lo
         name: region_id
         in: path
         required: true
+        examples:
+          italian:
+            value: it-lo
+            summary: italian lombardy region
+          english:
+            value: ak
+            summary: arkansas US state
       - schema:
           type: string
-          pattern: '[A-Za-z0-9]+'
+          pattern: '[A-Za-z0-9-_]+'
           maxLength: 10
+          example: prv-001
         name: province_id
         in: path
         required: true
+        examples:
+          italian:
+            value: prv-0001
+            summary: a province
       - schema:
           type: string
-          pattern: '[A-Za-z0-9]+'
+          pattern: '[A-Za-z0-9-_]+'
           maxLength: 10
+          example: cit-10001
         name: city_id
         in: path
         required: true
+        examples:
+          italian:
+            value: cit-0001
+            summary: a city
     get:
       summary: 'City detail by city ID, region and province'
       tags: []
       responses:
         '200':
-          $ref: '#/components/responses/City'
+          $ref: '#/components/responses/city'
         '400':
-          $ref: '#/components/responses/400'
+          $ref: '#/components/responses/error400'
         '401':
-          $ref: '#/components/responses/401'
+          $ref: '#/components/responses/error401'
         '403':
-          $ref: '#/components/responses/403'
+          $ref: '#/components/responses/error403'
         '404':
-          $ref: '#/components/responses/404'
+          $ref: '#/components/responses/error404'
         '500':
-          $ref: '#/components/responses/500'
+          $ref: '#/components/responses/error500'
       operationId: city-by-city-id-and-province
       description: 'Retrieves the cities of a province. Useful for countries, like Italy, which distinguishes region and province. The names are resolved based on requested language (default `it`)'
       parameters:
@@ -320,24 +424,29 @@ paths:
           type: string
           pattern: '[A-Za-z0-9-_]+'
           maxLength: 10
+          example: cit-1001
         name: city_id
         in: path
         required: true
         description: city_id
+        examples:
+          italian:
+            value: cit-0001
+            summary: a city
     get:
       summary: City by ID
       tags: []
       responses:
         '200':
-          $ref: '#/components/responses/City'
+          $ref: '#/components/responses/city'
         '401':
-          $ref: '#/components/responses/401'
+          $ref: '#/components/responses/error401'
         '403':
-          $ref: '#/components/responses/403'
+          $ref: '#/components/responses/error403'
         '404':
-          $ref: '#/components/responses/404'
+          $ref: '#/components/responses/error404'
         '500':
-          $ref: '#/components/responses/500'
+          $ref: '#/components/responses/error500'
       operationId: get-geo-cities-city_id
       description: |-
         City detail, reached directly with `city_id` (which should be unique).
@@ -347,7 +456,7 @@ paths:
         **TODO** understand if this API is really needed, maybe not!
       parameters:
         - $ref: '#/components/parameters/lang'
-  /tax-code-validation:
+  /taxcodevalidation:
     parameters: []
     put:
       summary: Validate tax code
@@ -378,17 +487,17 @@ paths:
                       birth_city_state_code: '18110'
                       control_chars: H
         '400':
-          $ref: '#/components/responses/400'
+          $ref: '#/components/responses/error400'
         '401':
-          $ref: '#/components/responses/401'
+          $ref: '#/components/responses/error401'
         '403':
-          $ref: '#/components/responses/403'
+          $ref: '#/components/responses/error403'
         '404':
-          $ref: '#/components/responses/404'
+          $ref: '#/components/responses/error404'
         '500':
-          $ref: '#/components/responses/500'
+          $ref: '#/components/responses/error500'
         '501':
-          $ref: '#/components/responses/501'
+          $ref: '#/components/responses/error501'
       description: |-
         Validate a tax code. This feature can be supported only for some countries, not for all. If not supported API returns `HTTP 501 - Not implemented`. 
 
@@ -413,6 +522,7 @@ paths:
                 - country_id
                 - tax_code
         description: Body of tax code validation PUT endpoint
+      x-audience: company-internal
   /cities/search:
     parameters: []
     post:
@@ -420,17 +530,17 @@ paths:
       operationId: post-cities-search
       responses:
         '200':
-          $ref: '#/components/responses/Cities'
+          $ref: '#/components/responses/cities'
         '400':
-          $ref: '#/components/responses/400'
+          $ref: '#/components/responses/error400'
         '401':
-          $ref: '#/components/responses/401'
+          $ref: '#/components/responses/error401'
         '403':
-          $ref: '#/components/responses/403'
+          $ref: '#/components/responses/error403'
         '404':
           description: Not Found
         '500':
-          $ref: '#/components/responses/500'
+          $ref: '#/components/responses/error500'
       parameters:
         - $ref: '#/components/parameters/lang'
         - $ref: '#/components/parameters/offset'
@@ -649,8 +759,10 @@ components:
         inhabitants:
           type: integer
           example: 11201
-          exclusiveMaximum: 100000000
-          exclusiveMinimum: 0
+          maximum: 100000000
+          minimum: 0
+          exclusiveMaximum: true
+          exclusiveMinimum: true
           format: int32
           description: The inhabitants of the city
         country_id:
@@ -780,7 +892,7 @@ components:
     Metadata:
       title: Metadata
       x-stoplight:
-        id: oib14d6qzb5yt
+        id: 4465d003cd8c0
       type: object
       description: 'Associated with collection responses, but only if needed. As an example, for Province API which will return a small number of results, metadata is quite unuseful.'
       properties:
@@ -798,7 +910,7 @@ components:
     Errors:
       title: Errors
       x-stoplight:
-        id: 42dh0daenq6h2
+        id: 4b406bdeefc6c
       type: object
       properties:
         errors:
@@ -808,108 +920,12 @@ components:
             $ref: '#/components/schemas/Error'
       description: A list of errors
   responses:
-    '400':
-      description: Invalid request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Errors'
-            description: Detected errors
-          examples:
-            HTTP 400 body:
-              value:
-                errors:
-                  - code: ERR001
-                    message: An error message
-      headers:
-        X-RateLimit-Limit:
-          schema:
-            type: string
-            pattern: '^[A-Za-z0-9-_]+'
-            maxLength: 512
-    '401':
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Errors'
-            description: Detected errors
-          examples:
-            HTTP 401 body:
-              value:
-                errors:
-                  - code: ERR001
-                    message: Some error description
-      headers:
-        X-RateLimit-Limit:
-          schema:
-            type: string
-            maxLength: 512
-            pattern: '^[A-Za-z0-9-_]+'
-    '403':
-      description: Forbidden access
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Errors'
-            description: Detected errors
-          examples:
-            HTTP 403 body:
-              value:
-                errors:
-                  - code: ERR403
-                    message: Some error
-      headers:
-        X-RateLimit-Limit:
-          schema:
-            type: string
-            maxLength: 512
-            pattern: '^[A-Za-z0-9-_]+'
-    '404':
-      description: Not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Errors'
-            description: Detected errors
-          examples:
-            HTTP 404 body:
-              value:
-                errors:
-                  - code: ERR404
-                    message: Some error
-      headers:
-        X-RateLimit-Limit:
-          schema:
-            type: string
-            pattern: '^[A-Za-z0-9-_]+'
-            maxLength: 512
-    '500':
-      description: Error response
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Errors'
-            description: Detected errors
-          examples:
-            HTTP 500 body:
-              value:
-                errors:
-                  - code: ERR500
-                    message: Some error
-      headers:
-        X-RateLimit-Limit:
-          schema:
-            type: string
-            pattern: '^[A-Za-z0-9-_]+'
-            maxLength: 512
-    '501':
+    error501:
       description: Not implemented
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Errors'
-            description: Detected errors
           examples:
             HTTP 501 body:
               value:
@@ -922,7 +938,97 @@ components:
             type: string
             pattern: '^[A-Za-z0-9-_]+'
             maxLength: 512
-    Countries:
+    error500:
+      description: Error response
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Errors'
+          examples:
+            HTTP 500 body:
+              value:
+                errors:
+                  - code: ERR500
+                    message: Some error
+      headers:
+        X-RateLimit-Limit:
+          schema:
+            type: string
+            pattern: '^[A-Za-z0-9-_]+'
+            maxLength: 512
+    error404:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Errors'
+          examples:
+            HTTP 404 body:
+              value:
+                errors:
+                  - code: ERR404
+                    message: Some error
+      headers:
+        X-RateLimit-Limit:
+          schema:
+            type: string
+            pattern: '^[A-Za-z0-9-_]+'
+            maxLength: 512
+    error403:
+      description: Forbidden access
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Errors'
+          examples:
+            HTTP 403 body:
+              value:
+                errors:
+                  - code: ERR403
+                    message: Some error
+      headers:
+        X-RateLimit-Limit:
+          schema:
+            type: string
+            maxLength: 512
+            pattern: '^[A-Za-z0-9-_]+'
+    error400:
+      description: Invalid request
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Errors'
+          examples:
+            HTTP 400 body:
+              value:
+                errors:
+                  - code: ERR001
+                    message: An error message
+      headers:
+        X-RateLimit-Limit:
+          schema:
+            type: string
+            pattern: '^[A-Za-z0-9-_]+'
+            maxLength: 512
+    error401:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Errors'
+          examples:
+            HTTP 401 body:
+              value:
+                errors:
+                  - code: ERR001
+                    message: Some error description
+      headers:
+        X-RateLimit-Limit:
+          schema:
+            type: string
+            maxLength: 512
+            pattern: '^[A-Za-z0-9-_]+'
+    countries:
       description: |-
         List of countries, ordered by name. The examples show a minimal subset of the countries just to give an idea. Let's suppose that in each result we'll find a number of results equals to `limit` parameter.
 
@@ -965,13 +1071,13 @@ components:
                     phone_code: '49'
                     deleted: false
                 links:
-                  - href: /geo/countries?offset=0&limit=20&lang=en
+                  - href: http://localhost:8080/geo/countries?offset=0&limit=20&lang=en
                     rel: first
-                  - href: /geo/countries?offset=20&limit=20&lang=en
+                  - href: http://localhost:8080/geo/countries?offset=20&limit=20&lang=en
                     rel: prev
-                  - href: /geo/countries?offset=60&limit=20&lang=en
+                  - href: http://localhost:8080/geo/countries?offset=60&limit=20&lang=en
                     rel: next
-                  - href: /geo/countries?offset=230&limit=20&lang=en
+                  - href: http://localhost:8080/geo/countries?offset=230&limit=20&lang=en
                     rel: last
                 metadata:
                   current_offset: 40
@@ -992,14 +1098,13 @@ components:
                     deleted: false
                     phone_code: '49'
                 links:
-                  - href: /geo/countries?offset=0&limit=20&lang=it
+                  - href: http://localhost:8080/geo/countries?offset=0&limit=20&lang=it
                     rel: first
-                  - href: /geo/countries?offset=20&limit=20&lang=it
+                  - href: http://localhost:8080/geo/countries?offset=20&limit=20&lang=it
                     rel: prev
-                  - href: /geo/countries?offset=60&limit=20&lang=it
+                  - href: http://localhost:8080/geo/countries?offset=60&limit=20&lang=it
                     rel: next
-                  - null
-                  - href: /geo/countries?offset=230&limit=20&lang=it
+                  - href: http://localhost:8080/geo/countries?offset=230&limit=20&lang=it
                     rel: last
                 metadata:
                   current_offset: 40
@@ -1010,7 +1115,7 @@ components:
             type: string
             pattern: '^[A-Za-z0-9-_]+'
             maxLength: 512
-    City:
+    city:
       description: 'Detail of single city. Region, Province (if available) and Country are resolved'
       content:
         application/json:
@@ -1043,7 +1148,7 @@ components:
             type: string
             pattern: '^[A-Za-z0-9-_]+'
             maxLength: 512
-    Cities:
+    cities:
       description: |-
         List of cities. This API can be called filtering by province of a region of by a region. The result is ordered by name, according to the `lang` param.
 
@@ -1100,13 +1205,13 @@ components:
                     country_id: it
                     country_name: italia
                 links:
-                  - href: /geo/countries/it/regions/it-lo/cities?offset=0&limit=20&lang=it
+                  - href: http://localhost:8080/geo/countries/it/regions/it-lo/cities?offset=0&limit=20&lang=it
                     rel: first
-                  - href: /geo/countries/it/regions/it-lo/cities?offset=20&limit=20&lang=it
+                  - href: http://localhost:8080/geo/countries/it/regions/it-lo/cities?offset=20&limit=20&lang=it
                     rel: prev
-                  - href: /geo/countries/it/regions/it-lo/cities?offset=60&limit=20&lang=it
+                  - href: http://localhost:8080/geo/countries/it/regions/it-lo/cities?offset=60&limit=20&lang=it
                     rel: next
-                  - href: /geo/countries/it/regions/it-lo/cities?offset=1500&limit=20&lang=it
+                  - href: http://localhost:8080/geo/countries/it/regions/it-lo/cities?offset=1500&limit=20&lang=it
                     rel: last
                 metadata:
                   current_offset: 40
@@ -1141,13 +1246,13 @@ components:
                     country_id: it
                     country_name: italia
                 links:
-                  - href: /geo/countries/it/regions/it-lo/provinces/itp001/cities?offset=0&limit=20&lang=it
+                  - href: http://localhost:8080/geo/countries/it/regions/it-lo/provinces/itp001/cities?offset=0&limit=20&lang=it
                     rel: first
-                  - href: /geo/countries/it/regions/it-lo/provinces/itp001/cities?offset=20&limit=20&lang=it
+                  - href: http://localhost:8080/geo/countries/it/regions/it-lo/provinces/itp001/cities?offset=20&limit=20&lang=it
                     rel: prev
-                  - href: /geo/countries/it/regions/it-lo/provinces/itp001/cities?offset=60&limit=20&lang=it
+                  - href: http://localhost:8080/geo/countries/it/regions/it-lo/provinces/itp001/cities?offset=60&limit=20&lang=it
                     rel: next
-                  - href: /geo/countries/it/regions/it-lo/provinces/itp001/cities?offset=120&limit=20&lang=it
+                  - href: http://localhost:8080/geo/countries/it/regions/it-lo/provinces/itp001/cities?offset=120&limit=20&lang=it
                     rel: last
                 metadata:
                   current_offset: 40
@@ -1158,7 +1263,7 @@ components:
             type: string
             pattern: '^[A-Za-z0-9-_]+'
             maxLength: 512
-    Regions:
+    regions:
       description: |-
         List of regions. The names reflect the value of `lang` param.
 
@@ -1280,9 +1385,9 @@ components:
                     deleted: false
                     country_id: it
                 links:
-                  - href: /geo/countries/it/regions?offset=20&limit=20&lang=it
+                  - href: http://localhost:8080/geo/countries/it/regions?offset=20&limit=20&lang=it
                     rel: next
-                  - href: /geo/countries/it/regions?offset=20&limit=20&lang=it
+                  - href: http://localhost:8080/geo/countries/it/regions?offset=20&limit=20&lang=it
                     rel: last
                 metadata:
                   current_offset: 0
@@ -1447,9 +1552,9 @@ components:
                     deleted: false
                     country_id: it
                 links:
-                  - href: /geo/countries/it/regions?offset=20&limit=20&lang=en
+                  - href: http://localhost:8080/geo/countries/it/regions?offset=20&limit=20&lang=en
                     rel: next
-                  - href: /geo/countries/it/regions?offset=20&limit=20&lang=en
+                  - href: http://localhost:8080/geo/countries/it/regions?offset=20&limit=20&lang=en
                     rel: last
                 metadata:
                   current_offset: 0
@@ -1460,7 +1565,7 @@ components:
             type: string
             pattern: '^[A-Za-z0-9-_]+'
             maxLength: 512
-    Provinces:
+    provinces:
       description: |-
         List of provinces, if supported by specific country, ordered by name. `links` section could be empty given the limited number of results.
 
@@ -1586,29 +1691,56 @@ components:
         default: it
         maxLength: 2
         pattern: '[A-Za-z]{2}'
+        example: it
       description: 'the language in which we want to receive the data, expressed in iso 639-1 format'
       allowEmptyValue: true
+      examples:
+        italian:
+          value: it
+          summary: italian language
+        english:
+          value: en
+          summary: english language
     limit:
       name: limit
       in: query
       required: false
       schema:
-        type: number
+        type: integer
         minimum: 0
         maximum: 50
         default: 20
+        format: int32
+        example: 20
       description: 'the page size, for collection APIs'
       allowEmptyValue: true
+      examples:
+        zero:
+          value: 0
+          summary: no limit
+        english:
+          value: 20
+          summary: 20 rows
     offset:
       name: offset
       in: query
       required: false
       schema:
-        type: number
+        type: integer
         default: 0
         minimum: 0
+        format: int32
+        maximum: 1000000
+        example: 0
       description: the offset to start
       allowEmptyValue: true
+      examples:
+        zero:
+          value: 0
+          summary: starting point
+        english:
+          value: 20
+          summary: from 20 rows
   requestBodies: {}
 x-internal: false
 security:

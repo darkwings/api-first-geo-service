@@ -25,11 +25,6 @@ public class CountriesApiImpl implements CountriesApi {
 
 
     @Override
-    public CitiesByRegion200Response citiesByRegion(String countryId, String regionId, String lang, BigDecimal limit, BigDecimal offset) {
-        return null;
-    }
-
-    @Override
     public CitiesByRegionAndCityId200Response citiesByRegionAndCityId(String countryId, String regionId, String cityId, String lang) {
         return null;
     }
@@ -40,22 +35,27 @@ public class CountriesApiImpl implements CountriesApi {
     }
 
     @Override
-    public GetApiGeoCountriesCountryCode200Response getApiGeoCountriesCountryCode(String countryId, String lang, BigDecimal offset, BigDecimal limit) {
+    public CitiesByRegion200Response citiesByRegion(String countryId, String regionId, String lang, Integer limit, Integer offset) {
         return null;
     }
 
     @Override
-    public CitiesByRegion200Response getApiGeoCountriesCountryCodeRegionsRegionCodeProvincesProvinceCodeCities(String countryId, String regionId, String provinceId, String lang, BigDecimal offset, BigDecimal limit) {
+    public GetApiGeoCountriesCountryCode200Response getApiGeoCountriesCountryCode(String countryId, String lang, Integer offset, Integer limit) {
         return null;
     }
 
     @Override
-    public GetCountries200Response getCountries(String lang, BigDecimal offset, BigDecimal limit) {
-        return allCountries(lang, offset.intValue(), limit.intValue());
+    public CitiesByRegion200Response getApiGeoCountriesCountryCodeRegionsRegionCodeProvincesProvinceCodeCities(String countryId, String regionId, String provinceId, String lang, Integer offset, Integer limit) {
+        return null;
     }
 
     @Override
-    public ProvincesByRegion200Response provincesByRegion(String countryId, String regionId, String lang, BigDecimal offset, BigDecimal limit) {
+    public GetCountries200Response getCountries(String lang, Integer offset, Integer limit) {
+        return allCountries(lang, offset, limit);
+    }
+
+    @Override
+    public ProvincesByRegion200Response provincesByRegion(String countryId, String regionId, String lang, Integer offset, Integer limit) {
         return null;
     }
 }
