@@ -17,7 +17,7 @@ public class GeoService {
     @Inject
     EntityManager em;
 
-    public List<Country> countries(String lang, int offset, int limit) {
+    public List<Country> countries(String lang, int pageNumber, int pageSize) {
         // TODO join con localized data, gestire errori, validazione etc.
         try {
             var list = new ArrayList<Country>();
