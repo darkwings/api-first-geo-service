@@ -896,14 +896,29 @@ components:
       properties:
         code:
           type: string
-          pattern: '[A-Z0-9]+'
+          pattern: '^[A-Za-z0-9]+'
           maxLength: 6
           description: 'The error code. Can be used to localize the error, if shown to clients'
-        message:
+        title:
           type: string
           pattern: '[A-Za-z0-9 ,]+'
           maxLength: 100
           description: The error message
+        detail:
+          type: string
+          pattern: .+
+          maxLength: 512
+        instance:
+          type: string
+          format: uri
+        invalid_params:
+          type: array
+          items:
+            $ref: '#/components/schemas/InvalidParam'
+        status:
+          type: integer
+          format: int32
+          example: 400
     Link:
       title: Link
       x-stoplight:
@@ -937,25 +952,33 @@ components:
           format: int32
           minimum: 0
           maximum: 10000
-    Errors:
-      title: Errors
+    InvalidParam:
+      title: InvalidParam
       x-stoplight:
-        id: 4b406bdeefc6c
+        id: udna76tue0nmg
       type: object
       properties:
-        errors:
-          type: array
-          maxItems: 20
-          items:
-            $ref: '#/components/schemas/Error'
-      description: A list of errors
+        name:
+          type: string
+          maxLength: 100
+          pattern: '^[A-Za-z0-9 -_]+'
+          example: age
+        reason:
+          type: string
+          pattern: .*
+          maxLength: 512
+          example: 'must match "[A-Za-z]{2}"'
+      required:
+        - name
+        - reason
+      description: Represents an invalid param in a Constraint Validation Exception
   responses:
     error501:
       description: Not implemented
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/Errors'
+            $ref: '#/components/schemas/Error'
           examples:
             HTTP 501 body:
               value:
@@ -970,7 +993,7 @@ components:
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/Errors'
+            $ref: '#/components/schemas/Error'
           examples:
             HTTP 500 body:
               value:
@@ -985,7 +1008,7 @@ components:
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/Errors'
+            $ref: '#/components/schemas/Error'
           examples:
             HTTP 404 body:
               value:
@@ -1000,7 +1023,7 @@ components:
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/Errors'
+            $ref: '#/components/schemas/Error'
           examples:
             HTTP 403 body:
               value:
@@ -1015,13 +1038,8 @@ components:
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/Errors'
-          examples:
-            HTTP 400 body:
-              value:
-                errors:
-                  - code: ERR001
-                    message: An error message
+            $ref: '#/components/schemas/Error'
+          examples: {}
       headers:
         X-RateLimit-Limit:
           $ref: '#/components/headers/X-RateLimit-Limit'
@@ -1030,13 +1048,8 @@ components:
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/Errors'
-          examples:
-            HTTP 401 body:
-              value:
-                errors:
-                  - code: ERR001
-                    message: Some error description
+            $ref: '#/components/schemas/Error'
+          examples: {}
       headers:
         X-RateLimit-Limit:
           $ref: '#/components/headers/X-RateLimit-Limit'
@@ -1045,7 +1058,7 @@ components:
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/Errors'
+            $ref: '#/components/schemas/Error'
           examples:
             HTTP 408 body:
               value:

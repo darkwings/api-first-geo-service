@@ -27,6 +27,8 @@ paths:
           $ref: '#/components/responses/error401'
         '403':
           $ref: '#/components/responses/error403'
+        '408':
+          $ref: '#/components/responses/error408'
         '500':
           $ref: '#/components/responses/error500'
       operationId: get-countries
@@ -71,6 +73,8 @@ paths:
           $ref: '#/components/responses/error403'
         '404':
           $ref: '#/components/responses/error404'
+        '408':
+          $ref: '#/components/responses/error408'
         '500':
           $ref: '#/components/responses/error500'
       operationId: get-api-geo-countries-country_code
@@ -137,6 +141,8 @@ paths:
           $ref: '#/components/responses/error403'
         '404':
           $ref: '#/components/responses/error404'
+        '408':
+          $ref: '#/components/responses/error408'
         '500':
           $ref: '#/components/responses/error500'
       operationId: cities-by-region
@@ -209,6 +215,8 @@ paths:
           $ref: '#/components/responses/error403'
         '404':
           $ref: '#/components/responses/error404'
+        '408':
+          $ref: '#/components/responses/error408'
         '500':
           $ref: '#/components/responses/error500'
       operationId: cities-by-region-and-city-id
@@ -263,6 +271,8 @@ paths:
           $ref: '#/components/responses/error403'
         '404':
           $ref: '#/components/responses/error404'
+        '408':
+          $ref: '#/components/responses/error408'
         '500':
           $ref: '#/components/responses/error500'
       operationId: provinces-by-region
@@ -335,6 +345,8 @@ paths:
           $ref: '#/components/responses/error403'
         '404':
           $ref: '#/components/responses/error404'
+        '408':
+          $ref: '#/components/responses/error408'
         '500':
           $ref: '#/components/responses/error500'
       operationId: get-api-geo-countries-country_code-regions-region_code-provinces-province_code-cities
@@ -419,6 +431,8 @@ paths:
           $ref: '#/components/responses/error403'
         '404':
           $ref: '#/components/responses/error404'
+        '408':
+          $ref: '#/components/responses/error408'
         '500':
           $ref: '#/components/responses/error500'
       operationId: city-by-city-id-and-province
@@ -454,6 +468,8 @@ paths:
           $ref: '#/components/responses/error403'
         '404':
           $ref: '#/components/responses/error404'
+        '408':
+          $ref: '#/components/responses/error408'
         '500':
           $ref: '#/components/responses/error500'
       operationId: get-geo-cities-city_id
@@ -466,7 +482,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/lang'
         - $ref: ./geo-service-3.0.0.yaml#/components/parameters/request_versioning
-  /taxcodevalidation:
+  /taxcode-validation:
     parameters: []
     put:
       summary: Validate tax code
@@ -504,12 +520,14 @@ paths:
           $ref: '#/components/responses/error403'
         '404':
           $ref: '#/components/responses/error404'
+        '408':
+          $ref: '#/components/responses/error408'
         '500':
           $ref: '#/components/responses/error500'
         '501':
           $ref: '#/components/responses/error501'
       description: |-
-        Validate a tax code. This feature can be supported only for some countries, not for all. If not supported API returns `HTTP 501 - Not implemented`. 
+        Validates a tax code. This feature can be supported only for some countries, not for all. If not supported API returns `HTTP 501 - Not implemented`. 
 
         It returns the decoded city and region names in the requested language, according to the see `lang` query param.
       parameters:
@@ -533,6 +551,8 @@ paths:
           $ref: '#/components/responses/error403'
         '404':
           description: Not Found
+        '408':
+          $ref: '#/components/responses/error408'
         '500':
           $ref: '#/components/responses/error500'
       parameters:
@@ -578,6 +598,26 @@ paths:
       deprecated: true
 components:
   schemas:
+    InvalidParam:
+      title: InvalidParam
+      x-stoplight:
+        id: udna76tue0nmg
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 100
+          pattern: '^[A-Za-z0-9 -_]+'
+          example: age
+        reason:
+          type: string
+          pattern: .*
+          maxLength: 512
+          example: 'must match "[A-Za-z]{2}"'
+      required:
+        - name
+        - reason
+      description: Represents an invalid param in a Constraint Validation Exception
     Country:
       title: Country
       x-stoplight:
@@ -921,17 +961,41 @@ components:
         id: t9idoy80cfd30
       type: object
       description: Represents an error
+      examples:
+        - code: ERR400
+          title: string
+          detail: string
+          status: 400
+          instance: 'http://example.com'
+          invalid_params:
+            - name: age
+              reason: 'must match "[A-Za-z]{2}"'
       properties:
         code:
           type: string
-          pattern: '[A-Z0-9]+'
+          pattern: '^[A-Za-z0-9]+'
           maxLength: 6
           description: 'The error code. Can be used to localize the error, if shown to clients'
-        message:
+        title:
           type: string
           pattern: '[A-Za-z0-9 ,]+'
           maxLength: 100
           description: The error message
+        detail:
+          type: string
+          pattern: .+
+          maxLength: 512
+        instance:
+          type: string
+          format: uri
+        invalid_params:
+          type: array
+          items:
+            $ref: '#/components/schemas/InvalidParam'
+        status:
+          type: integer
+          format: int32
+          example: 400
     Link:
       title: Link
       x-stoplight:
@@ -968,36 +1032,15 @@ components:
           format: int32
           minimum: 0
           maximum: 10000
-    Errors:
-      title: Errors
-      x-stoplight:
-        id: 4b406bdeefc6c
-      type: object
-      properties:
-        errors:
-          type: array
-          maxItems: 20
-          items:
-            $ref: '#/components/schemas/Error'
-      examples:
-        - errors:
-            - code: ERR001
-              message: An error message
-      description: A list of errors
   responses:
     error501:
       description: Not implemented
       content:
-        application/json:
+        application/problem+json:
           schema:
-            $ref: '#/components/schemas/Errors'
+            $ref: '#/components/schemas/Error'
             description: Detected errors
-          examples:
-            HTTP 501 body:
-              value:
-                errors:
-                  - code: ERR501
-                    message: Some error
+          examples: {}
       headers:
         X-RateLimit-Limit:
           $ref: '#/components/headers/X-RateLimit-Limit'
@@ -1006,30 +1049,27 @@ components:
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/Errors'
+            $ref: '#/components/schemas/Error'
             description: Detected errors
-          examples:
-            HTTP 500 body:
-              value:
-                errors:
-                  - code: ERR500
-                    message: Some error
+          examples: {}
       headers:
         X-RateLimit-Limit:
           $ref: '#/components/headers/X-RateLimit-Limit'
+    error408:
+      description: Timeout
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples: {}
     error404:
       description: Not found
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Errors'
+            $ref: '#/components/schemas/Error'
             description: Detected errors
-          examples:
-            HTTP 404 body:
-              value:
-                errors:
-                  - code: ERR404
-                    message: Some error
+          examples: {}
       headers:
         X-RateLimit-Limit:
           $ref: '#/components/headers/X-RateLimit-Limit'
@@ -1038,14 +1078,9 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Errors'
+            $ref: '#/components/schemas/Error'
             description: Detected errors
-          examples:
-            HTTP 403 body:
-              value:
-                errors:
-                  - code: ERR403
-                    message: Some error
+          examples: {}
       headers:
         X-RateLimit-Limit:
           $ref: '#/components/headers/X-RateLimit-Limit'
@@ -1054,14 +1089,9 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Errors'
+            $ref: '#/components/schemas/Error'
             description: Detected errors
-          examples:
-            HTTP 401 body:
-              value:
-                errors:
-                  - code: ERR001
-                    message: Some error description
+          examples: {}
       headers:
         X-RateLimit-Limit:
           $ref: '#/components/headers/X-RateLimit-Limit'
@@ -1070,14 +1100,9 @@ components:
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/Errors'
+            $ref: '#/components/schemas/Error'
             description: Detected errors
-          examples:
-            HTTP 400 body:
-              value:
-                errors:
-                  - code: ERR001
-                    message: An error message
+          examples: {}
       headers:
         X-RateLimit-Limit:
           $ref: '#/components/headers/X-RateLimit-Limit'
