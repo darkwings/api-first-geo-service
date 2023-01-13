@@ -7,12 +7,23 @@ If you want to learn more about Quarkus, please visit its website: https://quark
 ## CURL Example
 
 ```shell
-curl "http://localhost:8080/geo/countries?lang=a1" -v -H 'Accept: application/json;version=1'
+curl "http://localhost:8080/geo/countries?lang=it" -v -H 'Accept: application/json;version=1'
+
+curl "http://localhost:8080/geo/countries/it/regions?lang=it" -v -H 'Accept: application/json;version=1'
+```
+
+### legacy API
+
+At the moment, there is the /geo prefix, we'll get rid of it in the future
+
+```shell
+curl http://localhost:8080/geo/dbCap/regioni
 ```
 
 ## Running the application in dev mode
 
 You can run your application in dev mode that enables live coding using:
+
 ```shell script
 ./mvnw compile quarkus:dev
 ```

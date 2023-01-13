@@ -38,6 +38,7 @@ public class CountryEntity {
     private String phoneCode;
 
     @JsonProperty
+    @Column
     private boolean deleted;
 
     public CountryEntity() {
@@ -67,5 +68,16 @@ public class CountryEntity {
 
     public boolean isDeleted() {
         return deleted;
+    }
+
+    @Override
+    public String toString() {
+        return "CountryEntity{" +
+                "id=" + id +
+                ", names=" + names +
+                ", countryId='" + countryId + '\'' +
+                ", phoneCode='" + phoneCode + '\'' +
+                ", deleted=" + deleted +
+                '}';
     }
 }

@@ -16,8 +16,16 @@ public class CountriesApiImpl implements CountriesApi {
     GeoService geoService;
 
     private GetCountries200Response allCountries(String lang, int pageNumber, int pageSize) {
-        GetCountries200Response r = new GetCountries200Response();
+        var r = new GetCountries200Response();
         var l = geoService.countries(lang, pageNumber, pageSize);
+        return r.data(l)
+                .links(Collections.emptyList())
+                .metadata(new Metadata().currentOffset(0).totalCount(l.size()));
+    }
+
+    private GetApiGeoCountriesCountryCode200Response regions(String countryId, String lang, int pageNumber, int pageSize) {
+        var r = new GetApiGeoCountriesCountryCode200Response();
+        var l = geoService.regionsOfCountry(countryId, lang, pageNumber, pageSize);
         return r.data(l)
                 .links(Collections.emptyList())
                 .metadata(new Metadata().currentOffset(0).totalCount(l.size()));
@@ -41,7 +49,7 @@ public class CountriesApiImpl implements CountriesApi {
 
     @Override
     public GetApiGeoCountriesCountryCode200Response getApiGeoCountriesCountryCode(String countryId, String lang, Integer pageNumber, Integer pageSize, String accept) {
-        return null;
+        return regions(countryId, lang, pageNumber, pageSize);
     }
 
     @Override
