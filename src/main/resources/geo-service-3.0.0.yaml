@@ -510,6 +510,11 @@ paths:
                       birth_city_management_code: G388
                       birth_city_state_code: '18110'
                       control_chars: H
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            Content-Type:
+              $ref: '#/components/headers/Content-Type'
         '400':
           $ref: '#/components/responses/error400'
         '401':
@@ -565,7 +570,7 @@ paths:
         '403':
           $ref: '#/components/responses/error403'
         '404':
-          description: Not Found
+          $ref: '#/components/responses/error404'
         '408':
           $ref: '#/components/responses/error408'
         '500':
@@ -911,14 +916,18 @@ components:
         instance:
           type: string
           format: uri
+          maxLength: 512
         invalid_params:
           type: array
+          maxItems: 200
           items:
             $ref: '#/components/schemas/InvalidParam'
         status:
           type: integer
           format: int32
           example: 400
+          minimum: 0
+          maximum: 1000
     Link:
       title: Link
       x-stoplight:
@@ -1323,6 +1332,7 @@ components:
                   $ref: '#/components/schemas/Region'
               links:
                 type: array
+                maxItems: 200
                 items:
                   $ref: '#/components/schemas/Link'
               metadata:
@@ -1796,12 +1806,17 @@ components:
       description: Request limit per hour
       schema:
         type: integer
+        format: int32
+        minimum: 0
+        maximum: 1000000
       example: 100
     Content-Type:
       description: Versioned content type
       schema:
+        maxLength: 100
         type: string
-      example: 'application.*version=[0-9]+'
+        pattern: 'application.*version=[0-9]+'
+      example: 'application/x.wefox.api+json;version=1'
 x-internal: false
 security:
   - API Key - 1: []
