@@ -47,11 +47,13 @@ public class GeoService {
 
     public List<Region> regionsOfCountry(String countryId, String lang, int pageNumber, int pageSize) {
         // TODO join con localized data, paginazione, gestire errori, validazione etc.
-        var list = new ArrayList<Region>();
+
         var q = em.createQuery("select b from RegionEntity b " +
                 "JOIN b.country c where c.countryId = :countryId");
         q.setParameter("countryId", countryId);
         List<RegionEntity> regions = q.getResultList();
+
+        var list = new ArrayList<Region>();
         regions.forEach(ce -> ce.getNames().stream().filter(d -> d.getLanguageId().equals(lang))
                 .findFirst().ifPresent(localizedData -> {
                     var c = new Region();
@@ -61,7 +63,6 @@ public class GeoService {
                             .deleted(ce.isDeleted());
                     list.add(c);
                 }));
-        System.out.println(regions);
         return list;
     }
 }
