@@ -5,12 +5,7 @@ import io.quarkus.test.h2.H2DatabaseTestResource;
 import io.quarkus.test.junit.QuarkusTest;
 import it.apifirst.lab.geoservice.openapi.model.Country;
 import it.apifirst.lab.geoservice.openapi.model.GetCountries200Response;
-import it.apifirst.lab.geoservice.service.CountryView;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
-import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
