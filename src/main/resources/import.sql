@@ -58,8 +58,8 @@ INSERT INTO `geo-service`.localized_data(id, language_id, data) VALUES (514, 'it
 INSERT INTO `geo-service`.localized_data(id, language_id, data) VALUES (515, 'it', 'sardegna');
 INSERT INTO `geo-service`.localized_data(id, language_id, data) VALUES (516, 'it', 'sicilia');
 INSERT INTO `geo-service`.localized_data(id, language_id, data) VALUES (517, 'it', 'toscana');
-INSERT INTO `geo-service`.localized_data(id, language_id, data) VALUES (517, 'it', 'trentino alto adige');
-INSERT INTO `geo-service`.localized_data(id, language_id, data) VALUES (518, 'it', 'umbria');
+INSERT INTO `geo-service`.localized_data(id, language_id, data) VALUES (518, 'it', 'trentino alto adige');
+INSERT INTO `geo-service`.localized_data(id, language_id, data) VALUES (519, 'it', 'umbria');
 INSERT INTO `geo-service`.localized_data(id, language_id, data) VALUES (520, 'it', 'valle d''aosta');
 INSERT INTO `geo-service`.localized_data(id, language_id, data) VALUES (521, 'it', 'veneto');
 
@@ -81,8 +81,8 @@ INSERT INTO `geo-service`.localized_data(id, language_id, data) VALUES (614, 'en
 INSERT INTO `geo-service`.localized_data(id, language_id, data) VALUES (615, 'en', 'sardinia');
 INSERT INTO `geo-service`.localized_data(id, language_id, data) VALUES (616, 'en', 'sicily');
 INSERT INTO `geo-service`.localized_data(id, language_id, data) VALUES (617, 'en', 'tuscany');
-INSERT INTO `geo-service`.localized_data(id, language_id, data) VALUES (617, 'en', 'trentino south tyrol');
-INSERT INTO `geo-service`.localized_data(id, language_id, data) VALUES (618, 'en', 'umbria');
+INSERT INTO `geo-service`.localized_data(id, language_id, data) VALUES (618, 'en', 'trentino south tyrol');
+INSERT INTO `geo-service`.localized_data(id, language_id, data) VALUES (619, 'en', 'umbria');
 INSERT INTO `geo-service`.localized_data(id, language_id, data) VALUES (620, 'en', 'aosta valley');
 INSERT INTO `geo-service`.localized_data(id, language_id, data) VALUES (621, 'en', 'veneto');
 

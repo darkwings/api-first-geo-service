@@ -4,7 +4,7 @@ This project uses Quarkus, the Supersonic Subatomic Java Framework.
 
 If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
 
-## CURL Example
+# GEO-SERVICE TEST
 
 ```shell
 curl "http://localhost:8080/geo/countries?lang=it" -v -H 'Accept: application/json;version=1'
